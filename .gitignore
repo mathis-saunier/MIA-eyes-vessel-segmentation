@@ -1,0 +1,11 @@
+# Environnement virtuel Python
+mia_venv/
+venv/
+env/
+ENV/
+.venv
+
+# Données
+data/train/
+data/test/
+data/Quality_Assessment.xlsx
