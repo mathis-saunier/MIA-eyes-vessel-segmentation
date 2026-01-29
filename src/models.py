@@ -14,7 +14,7 @@ class Contracting_Block(nn.Module):
                 in_channels,
                 out_channels,
                 kernel_size=3,
-                padding=0,
+                padding=1,  # Padding=1 pour conserver la taille
                 bias=False,
             ),
             nn.BatchNorm2d(out_channels),
@@ -24,7 +24,7 @@ class Contracting_Block(nn.Module):
                 out_channels,
                 out_channels,
                 kernel_size=3,
-                padding=0,
+                padding=1,  # Padding=1 pour conserver la taille
                 bias=False,
             ),
             nn.BatchNorm2d(out_channels),
@@ -50,7 +50,7 @@ class Expansive_Block(nn.Module):
                 in_channels + copy_channels,
                 out_channels,
                 kernel_size=3,
-                padding=0,
+                padding=1,  # Padding=1 pour conserver la taille
                 bias=False,
             ),
             nn.BatchNorm2d(out_channels),
@@ -59,7 +59,7 @@ class Expansive_Block(nn.Module):
                 out_channels,
                 out_channels,
                 kernel_size=3,
-                padding=0,
+                padding=1,  # Padding=1 pour conserver la taille
                 bias=False,
             ),
             nn.BatchNorm2d(out_channels),
