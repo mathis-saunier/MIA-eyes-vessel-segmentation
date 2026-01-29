@@ -6,3 +6,6 @@ Vis à vis de la qualité :
 111 c'est bien
 000 c'est degueulasse
 - Kfold au lieu de train val test split
+- Early stopping :
+    - pas de chgmt depuis 10 epochs
+    - remontage de la val losses depuis 5 epochs
