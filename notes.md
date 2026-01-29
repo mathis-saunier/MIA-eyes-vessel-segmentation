@@ -5,3 +5,4 @@ Vis à vis de la qualité :
 - Si ça ne marche pas, explication en fonction de la qualité
 111 c'est bien
 000 c'est degueulasse
+- Kfold au lieu de train val test split
