@@ -9,3 +9,4 @@ Vis à vis de la qualité :
 - Early stopping :
     - pas de chgmt depuis 10 epochs
     - remontage de la val losses depuis 5 epochs
+- Cartes de poids
