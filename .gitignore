@@ -9,3 +9,7 @@ ENV/
 data/train/
 data/test/
 data/Quality_Assessment.xlsx
+
+# Fichiers temporaires python
+__pycache__/
+*.pyc
