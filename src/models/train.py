@@ -1,3 +1,5 @@
+import os
+import time
 import torch
 from tqdm import tqdm
 
@@ -32,11 +34,25 @@ def train(
     device,
     epochs,
     patience,
-    epsilon):
+    epsilon,
+    dir_save=None,
+    ):
     from .evaluate import evaluate
+
+    if dir_save is None:
+        raise Warning("Il n'y a pas de chemin spécifié pour sauvegarder le modèle. Pas de sauvegarde effectuée.")
+    else:
+        # Vérifier que le dossier existe
+        if not os.path.exists(os.path.dirname(dir_save)):
+            raise FileNotFoundError(f"Le dossier pour sauvegarder le modèle n'existe pas : {os.path.dirname(dir_save)}")
+        else:
+            dirname = f"train_{time.strftime('%Y%m%d-%H%M%S')}"
+            path_save = os.path.join(dir_save, dirname, 'best_model.pth')
+            os.makedirs(os.path.dirname(path_save), exist_ok=True)
 
     train_losses = []
     val_losses = []
+    max_val_loss = float('inf')
 
     for epoch in range(epochs):
         train_loss = train_one_epoch(model, train_loader, criterion, optimizer, device)
@@ -45,6 +61,12 @@ def train(
         train_losses.append(train_loss)
         val_losses.append(val_loss)
 
+        # Save the best model
+        if val_loss < max_val_loss:
+            max_val_loss = val_loss
+            if path_save is not None:
+                torch.save(model.state_dict(), path_save)
+        
         # Early stopping patience
         if epoch > patience:
             if val_losses[-1] > min(val_losses[-(patience+1):-1]):
