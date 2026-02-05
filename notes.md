@@ -13,3 +13,9 @@ Vis à vis de la qualité :
 - Faire le lien entre segmentation et maladie (trois types de maladies identifiables dans le nom de l'image)
     - Modifier le VesselDataset pour récupérer le nom de la maladie
 - Tester SAM et la version Med-SAM
+
+
+A faire :
+- fonction pour reprendre un entrainement
+- fonction pour calculer les métriques sur le jeu de test
+- voir si on fait une fonction qui permet de faire des logs automatiques des expériences (sous forme de config.txt)

@@ -14,7 +14,7 @@ class VesselDataset(Dataset):
         image_path = self.image_paths[idx]
         image = self.load_img(image_path)
 
-        label_path =                                                self.label_paths[idx]
+        label_path = self.label_paths[idx]
         label = self.load_label(label_path)
 
         if self.transform:
