@@ -13,3 +13,6 @@ data/Quality_Assessment.xlsx
 # Fichiers temporaires python
 __pycache__/
 *.pyc
+
+# Modèles sauvegardés
+saved_models/
