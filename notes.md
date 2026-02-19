@@ -16,7 +16,6 @@ Vis à vis de la qualité :
 
 
 A faire :
-- fonction pour reprendre un entrainement
 - fonction pour calculer les métriques sur le jeu de test
 - voir si on fait une fonction qui permet de faire des logs automatiques des expériences (sous forme de config.txt)
 - vérifier si les labels sont bien binarisés (possible modification sur le calcul des métriques dans predict)

@@ -36,6 +36,9 @@ def train(
     patience,
     epsilon,
     dir_save=None,
+    initial_train_losses=None,
+    initial_val_losses=None,
+    model_dir=None,
     ):
     from .evaluate import evaluate
 
@@ -46,15 +49,24 @@ def train(
         if not os.path.exists(os.path.dirname(dir_save)):
             raise FileNotFoundError(f"Le dossier pour sauvegarder le modèle n'existe pas : {os.path.dirname(dir_save)}")
         else:
-            dirname = f"train_{time.strftime('%Y%m%d-%H%M%S')}"
-            path_save = os.path.join(dir_save, dirname, 'best_model.pth')
-            os.makedirs(os.path.dirname(path_save), exist_ok=True)
+            # Si model_dir n'est pas fourni, créer un nouveau dossier
+            if model_dir is None:
+                dirname = f"train_{time.strftime('%Y%m%d-%H%M%S')}"
+                model_dir = os.path.join(dir_save, dirname)
+            
+            path_save = os.path.join(model_dir, 'best_model.pth')
+            path_checkpoint = os.path.join(model_dir, 'checkpoint.pth')
+            os.makedirs(model_dir, exist_ok=True)
 
-    train_losses = []
-    val_losses = []
-    max_val_loss = float('inf')
+    # Initialiser les historiques à partir des valeurs précédentes ou listes vides
+    train_losses = initial_train_losses if initial_train_losses is not None else []
+    val_losses = initial_val_losses if initial_val_losses is not None else []
+    
+    # Déterminer le min_val_loss à partir de l'historique
+    max_val_loss = min(val_losses) if val_losses else float('inf')
+    start_epoch = len(train_losses)
 
-    for epoch in range(epochs):
+    for epoch in range(start_epoch, epochs):
         train_loss = train_one_epoch(model, train_loader, criterion, optimizer, device)
         val_loss = evaluate(model, val_loader, criterion, device)
 
@@ -66,6 +78,11 @@ def train(
             max_val_loss = val_loss
             if path_save is not None:
                 torch.save(model.state_dict(), path_save)
+        
+        # Sauvegarder le checkpoint complet
+        if path_checkpoint is not None:
+            from ..utils.resume_training import save_checkpoint
+            save_checkpoint(model, optimizer, train_losses, val_losses, path_checkpoint)
         
         # Early stopping patience
         if epoch > patience:
