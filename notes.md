@@ -19,3 +19,6 @@ A faire :
 - fonction pour reprendre un entrainement
 - fonction pour calculer les métriques sur le jeu de test
 - voir si on fait une fonction qui permet de faire des logs automatiques des expériences (sous forme de config.txt)
+- vérifier si les labels sont bien binarisés (possible modification sur le calcul des métriques dans predict)
+- faire un resize explicite avant le calcul des métriques (je ne sais pas si le calcul actuel dans predict() est correct)
+- ATTENTION au resize des labels qui les rendent continus
