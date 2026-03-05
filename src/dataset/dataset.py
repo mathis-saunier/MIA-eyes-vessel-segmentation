@@ -2,10 +2,12 @@ from torch.utils.data import Dataset
 from PIL import Image
 
 class VesselDataset(Dataset):
-    def __init__(self, image_paths, label_paths, transform=None):
+    def __init__(self, image_paths, label_paths, transform=None, image_transform=None, label_transform=None):
         self.image_paths = image_paths
         self.label_paths = label_paths
         self.transform = transform
+        self.image_transform = image_transform if image_transform is not None else transform
+        self.label_transform = label_transform if label_transform is not None else transform
 
     def __len__(self):
         return len(self.image_paths)
@@ -17,9 +19,11 @@ class VesselDataset(Dataset):
         label_path = self.label_paths[idx]
         label = self.load_label(label_path)
 
-        if self.transform:
-            image = self.transform(image)
-            label = self.transform(label)
+        if self.image_transform:
+            image = self.image_transform(image)
+
+        if self.label_transform:
+            label = self.label_transform(label)
         
         desease = self.find_desease_from_name(image_path)
         
