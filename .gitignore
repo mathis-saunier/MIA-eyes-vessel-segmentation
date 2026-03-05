@@ -13,6 +13,7 @@ data/Quality_Assessment.xlsx
 # Fichiers temporaires python
 __pycache__/
 *.pyc
+*/.ipynb_checkpoints
 
 # Modèles sauvegardés
 saved_models/
