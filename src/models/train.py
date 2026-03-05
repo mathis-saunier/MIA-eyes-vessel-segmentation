@@ -82,7 +82,14 @@ def train(
         # Sauvegarder le checkpoint complet
         if path_checkpoint is not None:
             from ..utils.resume_training import save_checkpoint
-            save_checkpoint(model, optimizer, train_losses, val_losses, path_checkpoint)
+            save_checkpoint(
+                model,
+                optimizer,
+                train_losses,
+                val_losses,
+                path_checkpoint,
+                loss_name=criterion,
+            )
         
         # Early stopping patience
         if epoch > patience:
