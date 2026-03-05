@@ -4,9 +4,9 @@ model:
   out_channels: 1
 
 training:
-  resume_training: False
-  resume_model_path: "../saved_models/train_20260305-152906/best_model.pth"  # Chemin du modèle à reprendre
-  resume_checkpoint_path: "../saved_models/train_20260305-152906/checkpoint.pth"
+  resume_training: True
+  resume_model_path: "../saved_models/train_20260305-160441/best_model.pth"  # Chemin du modèle à reprendre
+  resume_checkpoint_path: "../saved_models/train_20260305-160441/checkpoint.pth"
   n_epochs: 40
   learning_rate: 0.0001
   batch_size: 1
