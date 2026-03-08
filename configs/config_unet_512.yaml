@@ -18,6 +18,8 @@ data:
   train_label_path: "../data/train/ground_truth/"
   test_img_path: "../data/test/original/"
   test_label_path: "../data/test/ground_truth/"
+  use_patches: True
+  patch_size: 512
   image_size: 512
   train_split: 0.8
 

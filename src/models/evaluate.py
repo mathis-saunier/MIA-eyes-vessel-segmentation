@@ -9,13 +9,18 @@ def evaluate(model, loader, criterion, device):
             images = images.to(device)
             labels = labels.to(device)
 
-            outputs = model(images)
-            loss = criterion(outputs, labels)
-            val_loss += loss.item()
+            for image_idx in range(images.size(0)):
+                image = images[image_idx:image_idx + 1]
+                label = labels[image_idx:image_idx + 1]
+
+                outputs = model(image)
+                loss = criterion(outputs, label)
+                val_loss += loss.item()
+
+                del image, label, outputs, loss
 
             # Libérer la mémoire GPU
-            del outputs, loss
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
             
-    return val_loss / len(loader)
+    return val_loss / len(loader.dataset)

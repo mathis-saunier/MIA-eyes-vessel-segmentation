@@ -10,20 +10,24 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
         images = images.to(device)
         labels = labels.to(device)
 
-        optimizer.zero_grad()
-        
-        outputs = model(images)
-        loss = criterion(outputs, labels)
-        loss.backward()
-        optimizer.step()
-        total_loss += loss.item()
-        
+        for image_idx in range(images.size(0)):
+            image = images[image_idx:image_idx + 1]
+            label = labels[image_idx:image_idx + 1]
+
+            optimizer.zero_grad()
+            outputs = model(image)
+            loss = criterion(outputs, label)
+            loss.backward()
+            optimizer.step()
+            total_loss += loss.item()
+
+            del image, label, outputs, loss
+
         # librer le gpu apres chaque batch
-        del outputs, loss
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
         
-    return total_loss / len(loader)
+    return total_loss / len(loader.dataset)
 
 def train(
     model,
