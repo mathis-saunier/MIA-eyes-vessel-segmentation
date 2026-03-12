@@ -1,12 +1,13 @@
 import torch
 from tqdm import tqdm
-from sklearn.metrics import f1_score
 
 def predict(model, loader, device="cpu"):
     model.eval()
     preds = []
 
     f1_scores = []
+    accuracies = []
+    recalls = []
 
     with torch.no_grad():
         for images, labels, _ in tqdm(loader):
@@ -18,15 +19,25 @@ def predict(model, loader, device="cpu"):
             masks = (probs > 0.5)
             preds.append(masks)
 
-            # Calcul du F1-score pour ce batch
             labels_binary = (labels > 0.5).cpu().numpy().flatten()
             masks_binary = masks.cpu().numpy().flatten()
-            f1 = f1_score(labels_binary, masks_binary)
+            
+            true_positives = (labels_binary == 1) & (masks_binary == 1)
+            false_positives = (labels_binary == 0) & (masks_binary == 1)
+            false_negatives = (labels_binary == 1) & (masks_binary == 0)
+            true_negatives = (labels_binary == 0) & (masks_binary == 0)
+            
+            f1 = 2 * true_positives.sum() / (2 * true_positives.sum() + false_positives.sum() + false_negatives.sum() + 1e-8)
+            accuracy = (true_positives.sum() + true_negatives.sum()) / len(labels_binary)
+            recall = true_positives.sum() / (true_positives.sum() + false_negatives.sum() + 1e-8)
+            
             f1_scores.append(f1)
-
+            accuracies.append(accuracy)
+            recalls.append(recall)
+            
             # Libérer la mémoire GPU
             del outputs, probs, masks
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
             
-        return torch.cat(preds, dim=0), f1_scores
+        return torch.cat(preds, dim=0), f1_scores, accuracies, recalls

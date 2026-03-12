@@ -18,3 +18,8 @@ A faire :
 - vérifier si les labels sont bien binarisés (possible modification sur le calcul des métriques dans predict)
 - faire un resize explicite avant le calcul des métriques (je ne sais pas si le calcul actuel dans predict() est correct)
 - ATTENTION au resize des labels qui les rendent continus
+
+
+finalement on fait :
+- loss noised
+- performances en fonction de la qualité

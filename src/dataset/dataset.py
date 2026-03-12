@@ -27,7 +27,9 @@ class VesselDataset(Dataset):
         
         desease = self.find_desease_from_name(image_path)
         
-        return image, label, desease
+        quality = self.find_quality_from_quality_assessment(image_path)
+        
+        return image, label, desease, quality
 
     def load_img(self, file_path):
         return Image.open(file_path)
@@ -43,3 +45,6 @@ class VesselDataset(Dataset):
             raise ValueError(f"La lettre {letter} n'est pas reconue")
         else:
             return letter
+        
+    def find_quality_from_name(self, file_name):
+        pass
