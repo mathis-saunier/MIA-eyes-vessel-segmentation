@@ -3,6 +3,7 @@ import torch
 import yaml
 import os
 from src.models.models import UNet
+from src.models.m2unet import m2unet, M2UNet
 
 def load_config(config_path):
     with open(config_path, 'r') as f:
@@ -88,15 +89,40 @@ def load_checkpoint(checkpoint_path, model, optimizer, device="cpu", loss_name=N
 
 
 def get_model_from_config(config, device="cpu"):
+    model_name = config['model'].get('name', 'UNet')
     in_channels = config['model']['in_channels']
     out_channels = config['model']['out_channels']
     
-    model = UNet(in_channels, out_channels).to(device)
+    if model_name == 'M2Unet':
+        model = m2unet()
+        # Charger les poids pré-entraînés si spécifiés
+        model_basis = config['model'].get('model_basis')
+        if model_basis and os.path.isfile(model_basis):
+            state_dict = torch.load(model_basis, map_location=device)
+            model.load_state_dict(state_dict)
+            print(f"✓ Poids pré-entraînés M2UNet chargés depuis: {model_basis}")
+        elif model_basis:
+            print(f"⚠ Fichier pré-entraîné introuvable: {model_basis}")
+        model = model.to(device)
+    else:
+        model = UNet(in_channels, out_channels).to(device)
+    
+    return model
+
+
+def load_pretrained_m2unet(pretrained_path, device="cpu"):
+    model = m2unet()
+    if not os.path.exists(pretrained_path):
+        raise FileNotFoundError(f"Le fichier pré-entraîné n'existe pas: {pretrained_path}")
+    
+    state_dict = torch.load(pretrained_path, map_location=device)
+    model.load_state_dict(state_dict)
+    model = model.to(device)
+    print(f"Modèle M2UNet pré-entraîné chargé depuis: {pretrained_path}")
     return model
 
 
 def list_available_checkpoints(save_dir="../saved_models/"):
-    """Liste tous les checkpoints disponibles."""
     if not os.path.exists(save_dir):
         print(f"Le dossier {save_dir} n'existe pas.")
         return []
