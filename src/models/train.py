@@ -6,7 +6,7 @@ from tqdm import tqdm
 def train_one_epoch(model, loader, criterion, optimizer, device):
     model.train()
     total_loss = 0
-    for images, labels, _ in tqdm(loader):
+    for images, labels,*_ in tqdm(loader):
         images = images.to(device)
         labels = labels.to(device)
 

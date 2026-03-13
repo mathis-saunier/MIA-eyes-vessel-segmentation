@@ -1,7 +1,7 @@
 import torch
 from tqdm import tqdm
 
-def predict(model, loader, device="cpu"):
+def predict(model, loader, device="cpu", verbose="False"):
     model.eval()
     preds = []
 
@@ -10,7 +10,16 @@ def predict(model, loader, device="cpu"):
     recalls = []
 
     with torch.no_grad():
-        for images, labels, _ in tqdm(loader):
+        for images, labels, desease, quality in tqdm(loader):
+            
+            if verbose:
+                for i in range(images.size(0)):
+                    ic = quality["IC"][i].item()
+                    blur = quality["Blur"][i].item()
+                    lc = quality["LC"][i].item()
+                    d = desease[i]
+                    tqdm.write(f"  Image {len(preds)+i+1} | Maladie: {d} | IC: {ic} | Blur: {blur} | LC: {lc} | Somme: {ic+blur+lc}")
+
             images = images.to(device)
             labels = labels.to(device)
 
