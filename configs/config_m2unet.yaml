@@ -6,17 +6,17 @@ model:
   model_basis: "../saved_models/m2unet/M2UNetDRIVE.pth"
 
 training:
-  resume_training: false
-  resume_checkpoint_path: null
-  loss : "DICE_BCE_Loss" # "BCEWithLogitsLoss"
-  n_epochs: 5
+  resume_training: False
+  resume_checkpoint_path: "../saved_models/m2unet/256_BCE/checkpoint.pth"
+  loss : "BCEWithLogitsLoss" # "DICE_BCE_Loss" ou "BCEWithLogitsLoss"
+  n_epochs: 40
   learning_rate: 0.0001
   batch_size: 1
-  patience: 5
+  patience: 50
   epsilon: 0.5
 
 prediction:
-  prediction_model_path: "../saved_models/m2unet/train_20260311-082605/best_model.pth"
+  prediction_model_path: "../saved_models/m2unet/256_BCE/best_model.pth"
 
 
 data:
@@ -24,7 +24,7 @@ data:
   train_label_path: "../data/train/ground_truth/"
   test_img_path: "../data/test/original/"
   test_label_path: "../data/test/ground_truth/"
-  image_size: 2048
+  image_size: 256
   train_split: 0.8
 
 paths:
