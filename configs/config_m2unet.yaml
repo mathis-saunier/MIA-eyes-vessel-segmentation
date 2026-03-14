@@ -18,7 +18,6 @@ training:
 prediction:
   prediction_model_path: "../saved_models/m2unet/256_BCE/best_model.pth"
 
-
 data:
   train_img_path: "../data/train/original/"
   train_label_path: "../data/train/ground_truth/"
@@ -29,3 +28,6 @@ data:
 
 paths:
   save_dir: "../saved_models/m2unet/"
+
+parameters:
+  verbose: false
