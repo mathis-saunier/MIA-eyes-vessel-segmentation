@@ -7,7 +7,7 @@ model:
 
 training:
   resume_training: False
-  resume_checkpoint_path: "../saved_models/m2unet/256_BCE/checkpoint.pth"
+  resume_checkpoint_path: "../saved_models/m2unet/256_DICE_BCE/checkpoint.pth"
   loss : "BCEWithLogitsLoss" # "DICE_BCE_Loss" ou "BCEWithLogitsLoss"
   n_epochs: 40
   learning_rate: 0.0001
@@ -16,7 +16,7 @@ training:
   epsilon: 0.5
 
 prediction:
-  prediction_model_path: "../saved_models/m2unet/256_BCE/best_model.pth"
+  prediction_model_path: "../saved_models/m2unet/256_DICE_BCE/best_model.pth"
 
 data:
   train_img_path: "../data/train/original/"
