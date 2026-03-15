@@ -1,12 +1,14 @@
 import torch
 from tqdm import tqdm
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, precision_score, recall_score
 
 def predict(model, loader, device="cpu"):
     model.eval()
     preds = []
 
     f1_scores = []
+    precision_scores = []
+    recall_scores = []
 
     with torch.no_grad():
         for images, labels, _ in tqdm(loader):
@@ -24,9 +26,17 @@ def predict(model, loader, device="cpu"):
             f1 = f1_score(labels_binary, masks_binary)
             f1_scores.append(f1)
 
+            # Calcul du score de précision pour ce batch
+            precision = precision_score(labels_binary, masks_binary)
+            precision_scores.append(precision)
+
+            # Calcul du score de rappel pour ce batch
+            recall = recall_score(labels_binary, masks_binary)
+            recall_scores.append(recall)
+
             # Libérer la mémoire GPU
             del outputs, probs, masks
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
             
-        return torch.cat(preds, dim=0), f1_scores
+        return torch.cat(preds, dim=0), f1_scores, precision_scores, recall_scores
