@@ -23,3 +23,8 @@ A faire :
 finalement on fait :
 - loss noised
 - performances en fonction de la qualité
+
+on peut tester les crops / patches
+
+"Option 2 — Gérer des crops/patches
+Entraîner sur des patches 512×512 ou 1024×1024 extraits des 2048×2048 (Dataset qui fait des RandomCrop), mais garder la prédiction sur l’image entière. C’est plus propre mais demande un peu de code en plus."

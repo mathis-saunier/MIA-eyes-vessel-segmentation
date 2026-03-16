@@ -2,7 +2,6 @@ model:
   name: "M2Unet"
   in_channels: 3
   out_channels: 1
-  # Poids pré-entraînés M2UNet (base pour le fine-tuning)
   model_basis: "../saved_models/m2unet/M2UNetDRIVE.pth"
 
 training:
@@ -16,7 +15,7 @@ training:
   epsilon: 0.5
 
 prediction:
-  prediction_model_path: "../saved_models/m2unet/train_20260311-082605/best_model.pth"
+  prediction_model_path: "../saved_models/m2unet/train_20260313-142310/best_model.pth"
 
 data:
   train_img_path: "../data/train/original/"

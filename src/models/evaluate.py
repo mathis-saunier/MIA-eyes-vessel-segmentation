@@ -5,7 +5,7 @@ def evaluate(model, loader, criterion, device):
     model.eval()
     val_loss = 0
     with torch.no_grad():
-        for images, labels, _ in tqdm(loader):
+        for images, labels, *_ in tqdm(loader):
             images = images.to(device)
             labels = labels.to(device)
 
