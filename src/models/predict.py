@@ -1,5 +1,6 @@
 import torch
 from tqdm import tqdm
+from sklearn.metrics import f1_score, precision_score, recall_score
 
 def predict(model, loader, device="cpu", verbose="False"):
     model.eval()
