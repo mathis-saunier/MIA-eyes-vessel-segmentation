@@ -18,7 +18,7 @@ def train_one_epoch(model, loader, criterion, optimizer, device):
         optimizer.step()
         total_loss += loss.item()
         
-        # librer le gpu apres chaque batch
+        # Librer le gpu apres chaque batch
         del outputs, loss
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
