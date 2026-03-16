@@ -8,6 +8,7 @@ def predict(model, loader, device="cpu", verbose="False"):
     f1_scores = []
     precisions = []
     recalls = []
+    accuracies = []
 
     with torch.no_grad():
         for images, labels, desease, quality in tqdm(loader):
@@ -38,15 +39,17 @@ def predict(model, loader, device="cpu", verbose="False"):
             
             f1 = 2 * true_positives.sum() / (2 * true_positives.sum() + false_positives.sum() + false_negatives.sum() + 1e-8)
             precision = true_positives.sum() / (true_positives.sum() + false_positives.sum() + 1e-8)
+            accuracy = (true_positives.sum() + true_negatives.sum()) / (labels_binary.size + 1e-8)
             recall = true_positives.sum() / (true_positives.sum() + false_negatives.sum() + 1e-8)
             
             f1_scores.append(f1)
             precisions.append(precision)
             recalls.append(recall)
+            accuracies.append(accuracy)
             
             # Libérer la mémoire GPU
             del outputs, probs, masks
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
             
-        return torch.cat(preds, dim=0), f1_scores, precisions, recalls
+        return torch.cat(preds, dim=0), f1_scores, precisions, recalls, accuracies
