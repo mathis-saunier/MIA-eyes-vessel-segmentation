@@ -6,7 +6,7 @@ def predict(model, loader, device="cpu", verbose="False"):
     preds = []
 
     f1_scores = []
-    accuracies = []
+    precisions = []
     recalls = []
 
     with torch.no_grad():
@@ -37,11 +37,11 @@ def predict(model, loader, device="cpu", verbose="False"):
             true_negatives = (labels_binary == 0) & (masks_binary == 0)
             
             f1 = 2 * true_positives.sum() / (2 * true_positives.sum() + false_positives.sum() + false_negatives.sum() + 1e-8)
-            accuracy = (true_positives.sum() + true_negatives.sum()) / len(labels_binary)
+            precision = true_positives.sum() / (true_positives.sum() + false_positives.sum() + 1e-8)
             recall = true_positives.sum() / (true_positives.sum() + false_negatives.sum() + 1e-8)
             
             f1_scores.append(f1)
-            accuracies.append(accuracy)
+            precisions.append(precision)
             recalls.append(recall)
             
             # Libérer la mémoire GPU
@@ -49,4 +49,4 @@ def predict(model, loader, device="cpu", verbose="False"):
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
             
-        return torch.cat(preds, dim=0), f1_scores, accuracies, recalls
+        return torch.cat(preds, dim=0), f1_scores, precisions, recalls
